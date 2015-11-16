@@ -78,8 +78,9 @@ public class PlayState extends State {
     protected void dispose() {
         mBackground.dispose();
         mBird.dispose();
-        for (Tube tube : mTubes) {
-            tube.dispose();
+        for (int i = 0; i < mTubes.size; i++) {
+            mTubes.get(i).dispose();
         }
+        System.out.println("Play State Disposed");
     }
 }

@@ -14,24 +14,24 @@ public class GameStateManager {
         mStates = new Stack<State>();
     }
 
-    public void push(State state){
+    public void push(State state) {
         mStates.push(state);
     }
 
-    public void pop(){
+    public void pop() {
         mStates.pop().dispose();
     }
 
-    public void set(State state){
-        mStates.pop();
+    public void set(State state) {
+        mStates.pop().dispose();
         mStates.push(state);
     }
 
-    public void update(float delta){
+    public void update(float delta) {
         mStates.peek().update(delta);
     }
 
-    public void render(SpriteBatch spriteBatch){
+    public void render(SpriteBatch spriteBatch) {
         mStates.peek().render(spriteBatch);
     }
 }
