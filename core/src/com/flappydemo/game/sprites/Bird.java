@@ -20,10 +20,16 @@ public class Bird {
     }
 
     public void update(float delta) {
-        mVelocity.add(0, GRAVITY, 0);
+        if (mPosition.y > 0) {
+            mVelocity.add(0, GRAVITY, 0);
+        }
 
         mVelocity.scl(delta);   //scale to multiple for the time that has passed
         mPosition.add(0, mVelocity.y, 0);
+
+        if (mPosition.y < 0) {
+            mPosition.y = 0;
+        }
 
         mVelocity.scl(1 / delta); //scale back so next call to update method, will scale things fine
     }
@@ -32,15 +38,11 @@ public class Bird {
         return mPosition;
     }
 
-    public void setPosition(Vector3 position) {
-        mPosition = position;
-    }
-
     public Texture getTexture() {
         return mTexture;
     }
 
-    public void setTexture(Texture texture) {
-        mTexture = texture;
+    public void jump() {
+        mVelocity.y = 250;
     }
 }
