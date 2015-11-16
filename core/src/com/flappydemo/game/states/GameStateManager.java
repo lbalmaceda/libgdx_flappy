@@ -19,7 +19,7 @@ public class GameStateManager {
     }
 
     public void pop(){
-        mStates.pop();
+        mStates.pop().dispose();
     }
 
     public void set(State state){

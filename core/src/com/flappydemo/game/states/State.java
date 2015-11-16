@@ -10,18 +10,19 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class State {
     protected OrthographicCamera mCam;
     protected Vector3 mMouse;
-    protected GameStateManager mManager;
+    protected GameStateManager mGSM;
 
-    public State(GameStateManager manager) {
-        mManager = manager;
+    public State(GameStateManager gsm) {
+        mGSM = gsm;
         mCam = new OrthographicCamera();
         mMouse = new Vector3();
-
-
     }
 
     protected abstract void handleInput();
+
     protected abstract void update(float delta);
+
     protected abstract void render(SpriteBatch spriteBatch);
+
     protected abstract void dispose();
 }

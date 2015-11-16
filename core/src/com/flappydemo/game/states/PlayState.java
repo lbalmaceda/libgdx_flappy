@@ -52,6 +52,11 @@ public class PlayState extends State {
             if (mCam.position.x - (mCam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()) {
                 tube.reposition(tube.getPosTopTube().x + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
             }
+
+            //check for collisions
+            if (tube.collides(mBird.getBounds())) {
+                mGSM.set(new PlayState(mGSM));
+            }
         }
         mCam.update();
     }
@@ -71,5 +76,10 @@ public class PlayState extends State {
 
     @Override
     protected void dispose() {
+        mBackground.dispose();
+        mBird.dispose();
+        for (Tube tube : mTubes) {
+            tube.dispose();
+        }
     }
 }
