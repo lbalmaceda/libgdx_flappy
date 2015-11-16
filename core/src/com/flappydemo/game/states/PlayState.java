@@ -82,7 +82,7 @@ public class PlayState extends State {
         spriteBatch.setProjectionMatrix(mCam.combined);
         spriteBatch.begin();
         spriteBatch.draw(mBackground, mCam.position.x - (mCam.viewportWidth / 2), 0);
-        spriteBatch.draw(mBird.getTexture(), mBird.getPosition().x, mBird.getPosition().y);
+        spriteBatch.draw(mBird.getBirdTexture(), mBird.getPosition().x, mBird.getPosition().y);
         for (Tube tube : mTubes) {
             spriteBatch.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
             spriteBatch.draw(tube.getBottomTube(), tube.getPosBotTube().x, tube.getPosBotTube().y);

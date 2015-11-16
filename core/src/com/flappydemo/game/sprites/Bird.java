@@ -1,6 +1,7 @@
 package com.flappydemo.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -10,20 +11,24 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird {
     private static final int GRAVITY = -15;
     private static final int MOVEMENT = 100;
+    private final Texture mBirdTexture;
 
     private Vector3 mPosition;
     private Vector3 mVelocity;
-    private Texture mTexture;
     private Rectangle mBounds;
+
+    private Animation mAnimation;
 
     public Bird(int x, int y) {
         mPosition = new Vector3(x, y, 0);
         mVelocity = new Vector3(0, 0, 0);
-        mTexture = new Texture("bird.png");
-        mBounds = new Rectangle(x, y, mTexture.getWidth(), mTexture.getHeight());
+        mBirdTexture = new Texture("birdanimation.png");
+        mAnimation = new Animation(mBirdTexture, 3, 0.5f);
+        mBounds = new Rectangle(x, y, mBirdTexture.getWidth() / 3, mBirdTexture.getHeight());
     }
 
     public void update(float delta) {
+        mAnimation.update(delta);
         if (mPosition.y > 0) {
             mVelocity.add(0, GRAVITY, 0);
         }
@@ -43,8 +48,8 @@ public class Bird {
         return mPosition;
     }
 
-    public Texture getTexture() {
-        return mTexture;
+    public TextureRegion getBirdTexture() {
+        return mAnimation.getFrame();
     }
 
     public void jump() {
@@ -56,6 +61,6 @@ public class Bird {
     }
 
     public void dispose() {
-        mTexture.dispose();
+        mBirdTexture.dispose();
     }
 }
