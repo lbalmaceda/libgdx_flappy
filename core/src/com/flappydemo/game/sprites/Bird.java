@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class Bird {
     private static final int GRAVITY = -15;
+    private static final int MOVEMENT = 100;
 
     private Vector3 mPosition;
     private Vector3 mVelocity;
@@ -25,7 +26,7 @@ public class Bird {
         }
 
         mVelocity.scl(delta);   //scale to multiple for the time that has passed
-        mPosition.add(0, mVelocity.y, 0);
+        mPosition.add(MOVEMENT * delta, mVelocity.y, 0);
 
         if (mPosition.y < 0) {
             mPosition.y = 0;

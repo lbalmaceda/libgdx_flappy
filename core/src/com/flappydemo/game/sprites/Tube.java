@@ -9,10 +9,12 @@ import java.util.Random;
  * Created by lbalmaceda on 11/15/15.
  */
 public class Tube {
+    public static final int TUBE_WIDTH = 52;
 
     private static final int FLUCTUATION = 130;
     private static final int TUBE_GAP = 100;
     private static final int LOWEST_OPENING = 120;
+
     private Texture mTopTube;
     private Texture mBottomTube;
 
@@ -41,5 +43,10 @@ public class Tube {
 
     public Vector2 getPosBotTube() {
         return mPosBotTube;
+    }
+
+    public void reposition(float x){
+        mPosTopTube.set(x, mRand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
+        mPosBotTube.set(x, mPosTopTube.y - TUBE_GAP - mBottomTube.getHeight());
     }
 }
