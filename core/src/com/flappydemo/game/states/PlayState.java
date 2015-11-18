@@ -19,22 +19,28 @@ public class PlayState extends State {
 
     private Bird mBird;
     private Texture mBackground;
-    private Tube mTube;
+    private Texture mGameOver;
     private Texture mGround;
+    private Vector2 mGameOverPosition;
     private Vector2 mGroundPosition1;
     private Vector2 mGroundPosition2;
 
     private Array<Tube> mTubes;
 
+    private boolean mIsGameOver;
+
     public PlayState(GameStateManager manager) {
         super(manager);
+        mIsGameOver = false;
         mBird = new Bird(50, 350);
         mBackground = new Texture("bg.png");
-        mTube = new Tube(100);
+        mGameOver = new Texture("gameover.png");
+        Vector2 gameOverPosition = new Vector2();
 
         mGround = new Texture("ground.png");
         mGroundPosition1 = new Vector2(mCam.position.x - mCam.viewportWidth / 2, GROUND_Y_OFFSET);
         mGroundPosition2 = new Vector2((mCam.position.x - mCam.viewportWidth / 2) + mGround.getWidth(), GROUND_Y_OFFSET);
+        mGameOverPosition = new Vector2(mCam.position.x + mCam.viewportWidth / 2, 100);
 
         mTubes = new Array<Tube>();
         for (int i = 1; i <= TUBE_COUNT; i++) {
@@ -47,7 +53,12 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {
-            mBird.jump();
+            if (mIsGameOver) {
+                //clear game over logo and start the game
+                mGSM.set(new PlayState(mGSM));
+            } else {
+                mBird.jump();
+            }
         }
     }
 
@@ -56,6 +67,9 @@ public class PlayState extends State {
         handleInput();
         mBird.update(delta);
         mCam.position.x = mBird.getPosition().x + 80;
+
+        mGameOverPosition.x = mCam.position.x - mGameOver.getWidth() / 2;
+        mGameOverPosition.y = mCam.position.y;
         updateGround();
 
         //check for collisions
@@ -66,12 +80,12 @@ public class PlayState extends State {
             }
 
             if (tube.collides(mBird.getBounds())) {
-                mGSM.set(new PlayState(mGSM));
+                mIsGameOver = true;
             }
         }
 
         if (mBird.getPosition().y <= mGround.getHeight() + GROUND_Y_OFFSET) {
-            mGSM.set(new PlayState(mGSM));
+            mIsGameOver = true;
         }
 
         mCam.update();
@@ -89,6 +103,9 @@ public class PlayState extends State {
         }
         spriteBatch.draw(mGround, mGroundPosition1.x, mGroundPosition1.y);
         spriteBatch.draw(mGround, mGroundPosition2.x, mGroundPosition2.y);
+        if (mIsGameOver) {
+            spriteBatch.draw(mGameOver, mGameOverPosition.x, mGameOverPosition.y);
+        }
         spriteBatch.end();
     }
 
@@ -97,6 +114,7 @@ public class PlayState extends State {
         mBackground.dispose();
         mBird.dispose();
         mGround.dispose();
+        mGameOver.dispose();
         for (int i = 0; i < mTubes.size; i++) {
             mTubes.get(i).dispose();
         }
